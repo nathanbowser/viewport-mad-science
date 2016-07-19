@@ -39,9 +39,9 @@
 
       body.no-scroll {
         overflow: hidden; /* Broken in IOS*/
-        /*position: fixed;
+        position: fixed;
         top: 0;
-        left: 0;*/
+        left: 0;
       }
 
     </style>
@@ -81,10 +81,9 @@
 
           var scale = window.innerWidth / w
             , scaleFactor = w / screen.width
-
-
+            , offset = [window.pageXOffset, window.pageYOffset]
           function style () {
-            var offset = [window.pageXOffset, window.pageYOffset]
+
             console.log('setting top', offset[1], 'but pageYOffset is now ', window.pageYOffset)
             return {
                width: screen.width + 'px',
@@ -152,8 +151,7 @@
                             // d3.select(document.body)
                             //   .classed('no-scroll', true)
                             timeout = window.setInterval(function () {
-                              wrapper.selectAll('.wrapper-scalable')
-                                     .style(style())
+                              window.scrollTo(offset[0], offset[1])
                             }, 50)
                          })
         }
