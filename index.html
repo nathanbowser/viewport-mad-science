@@ -55,18 +55,15 @@
           loaded = !loaded
           var wrapper = d3.select(document.body)
                           .selectAll('.wrapper')
-                          .data(loaded ? [loaded] : [])
+                          .data(loaded ? [{}] : [])
 
           var timeout
 
           wrapper.exit().remove()
           .each(function () {
-             d3.select(document.body)
-               .classed('no-scroll', false)
                window.clearInterval(timeout)
                timeout = null
           })
-
 
           // Make the wrapper the full width/height
           var w = Math.max(document.body.offsetWidth, document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth)
@@ -78,6 +75,17 @@
           wrapper.enter()
                  .append('div')
                    .attr('class', 'wrapper')
+                   .on('touchstart.sob', function () {
+                     var t2 = d3.event.timeStamp
+                       , t1 = d3.select(this).datum().lastTouch || t2
+                       , d = t2 - t1
+
+                     d3.select(this).datum().lastTouch = t2
+
+                     if ((d && d < 300) || d3.event.touches.length > 1) {
+                       d3.event.preventDefault()
+                     }
+                   }, true)
                    .on('touchmove.sob', function () {
                      var a = d3.event.target
                        , els = []
@@ -90,8 +98,7 @@
                      var scrollable = !!els.filter(function (el) {
                                            return d3.select(el).classed('wrapper-scrollable')
                                          })[0]
-
-                     if (!scrollable || d3.event.touches.length > 1) {
+                     if (!scrollable) {
                        d3.event.preventDefault()
                        d3.event.stopPropagation()
                      }
