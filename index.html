@@ -121,7 +121,7 @@
                            , currentScroll = top + this.offsetHeight
                           if (top === 0) {
                             this.scrollTop = 1
-                            d3.event.preventDefault()
+                            // d3.event.preventDefault()
                           } else if (currentScroll  > totalScroll) {
                             this.scrollTop = top - 1 // I don't know why 3 works best. If it's less than
                                                         // 3, then sometimes it will scroll the document
