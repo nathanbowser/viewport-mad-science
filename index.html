@@ -102,20 +102,20 @@
                      })
                      .append('div')
                        .attr('class', 'wrapper-scrollable')
-                       .on('touchstart', function () {
-                         var top = this.scrollTop
-                           , totalScroll = this.scrollHeight
-                           , currentScroll = top + this.offsetHeight
+                       // .on('touchstart', function () {
+                       //   var top = this.scrollTop
+                       //     , totalScroll = this.scrollHeight
+                       //     , currentScroll = top + this.offsetHeight
 
-                          if (top === 0) {
-                            this.scrollTop = 1
-                            d3.event.preventDefault()
-                          } else if (currentScroll  > totalScroll) {
-                            this.scrollTop = top - 3 // I don't know why 3 works best. If it's less than
-                                                        // 3, then sometimes it will scroll the document
-                                                        // if at the bottom
-                          }
-                       })
+                       //    if (top === 0) {
+                       //      this.scrollTop = 1
+                       //      d3.event.preventDefault()
+                       //    } else if (currentScroll  > totalScroll) {
+                       //      this.scrollTop = top - 3 // I don't know why 3 works best. If it's less than
+                       //                                  // 3, then sometimes it will scroll the document
+                       //                                  // if at the bottom
+                       //    }
+                       // })
                        .append('div')
                          .attr('class', 'wrapper-content')
                          .html('<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec magna tristique, posuere libero ac, feugiat quam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ac ipsum nec libero auctor imperdiet viverra id diam. Fusce luctus erat quam, non viverra sem tristique nec. Curabitur lorem purus, pulvinar in rutrum vitae, finibus quis quam. Phasellus at pretium dolor. In pretium, turpis non faucibus eleifend, elit leo hendrerit urna, sed laoreet massa elit quis turpis. Fusce feugiat velit eros, id efficitur magna convallis id.</div><div>Sed a elementum ante, sit amet sodales quam. Proin bibendum vitae erat vitae blandit. Mauris et nunc ullamcorper, posuere ante ut, semper felis. Ut enim tellus, lacinia at faucibus id, sollicitudin sed tortor. Nulla ut pharetra quam, sit amet suscipit eros. Maecenas facilisis dolor maximus orci condimentum, eu ultricies orci tristique. Vestibulum eu magna eu massa aliquam facilisis in vitae ipsum. Pellentesque ultrices consectetur venenatis. Pellentesque sagittis neque ligula, non venenatis ante tempus id. Curabitur id accumsan nibh.</div><div>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus ut malesuada tellus. Vestibulum elementum metus pellentesque sapien pellentesque, sed porttitor metus tristique. In hac habitasse platea dictumst. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas non pellentesque tortor, at blandit felis. Proin sagittis, lorem eu iaculis elementum, leo justo posuere elit, ac maximus diam nulla ac lacus. Morbi vitae augue sed sapien varius rutrum. Fusce gravida placerat mauris, a pretium tortor ornare ut. Aenean gravida sit amet justo a maximus. Ut euismod efficitur augue sodales vulputate. Vivamus dignissim sapien at sem lobortis, nec faucibus nibh elementum. Maecenas lobortis mauris vitae pellentesque pretium. Ut libero leo, feugiat id nisi vitae, aliquam elementum eros.</div>')
