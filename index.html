@@ -34,14 +34,14 @@
         border: 1px solid black;
         max-height: 300px;
         overflow: scroll;
-        /*-webkit-overflow-scrolling: touch;*/
+        -webkit-overflow-scrolling: touch;
       }
 
       body.no-scroll {
-        overflow: hidden; // Broken in IOS
-        position: fixed;
+        overflow: hidden; /* Broken in IOS*/
+        /*position: fixed;
         top: 0;
-        left: 0;
+        left: 0;*/
       }
 
     </style>
@@ -64,10 +64,14 @@
                           .selectAll('.wrapper')
                           .data(loaded ? [loaded] : [])
 
+          var timeout
+
           wrapper.exit().remove()
           .each(function () {
              d3.select(document.body)
                .classed('no-scroll', false)
+               window.clearInterval(timeout)
+               timeout = null
           })
 
 
@@ -75,10 +79,21 @@
           var w = Math.max(document.body.offsetWidth, document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth)
             , h = Math.max(document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight)
 
-          var offset = [window.pageXOffset, window.pageYOffset]
-            , scale = window.innerWidth / w
+          var scale = window.innerWidth / w
             , scaleFactor = w / screen.width
 
+
+          function style () {
+            var offset = [window.pageXOffset, window.pageYOffset]
+            console.log('setting top', offset[1], 'but pageYOffset is now ', window.pageYOffset)
+            return {
+               width: screen.width + 'px',
+               left: offset[0] + 'px',
+               transform: 'scale(' + (scale * scaleFactor) + ')',
+               'transform-origin': '0 0',
+               top: offset[1] + 'px'
+             }
+          }
           wrapper.enter()
                  .append('div')
                    .attr('class', 'wrapper')
@@ -106,13 +121,7 @@
                    })
                    .append('div')
                      .attr('class', 'wrapper-scalable')
-                     .style({
-                       width: screen.width + 'px',
-                       left: offset[0] + 'px',
-                       transform: 'scale(' + (scale * scaleFactor) + ')',
-                       'transform-origin': '0 0',
-                       top: offset[1] + 'px'
-                     })
+                     .style(style())
                      .append('div')
                        .attr('class', 'wrapper-scrollable')
                        .on('touchstart', function () {
@@ -128,12 +137,24 @@
                                                         // if at the bottom
                           }
                        })
+                       // .on('touchend', function () {
+                       //  setTimeout(function () {
+                       //    wrapper.selectAll('.wrapper-scalable')
+                       //           .style(style())
+                       //         }, 200)
+
+
+                       // })
                        .append('div')
                          .attr('class', 'wrapper-content')
                          .html('<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec magna tristique, posuere libero ac, feugiat quam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ac ipsum nec libero auctor imperdiet viverra id diam. Fusce luctus erat quam, non viverra sem tristique nec. Curabitur lorem purus, pulvinar in rutrum vitae, finibus quis quam. Phasellus at pretium dolor. In pretium, turpis non faucibus eleifend, elit leo hendrerit urna, sed laoreet massa elit quis turpis. Fusce feugiat velit eros, id efficitur magna convallis id.</div><div>Sed a elementum ante, sit amet sodales quam. Proin bibendum vitae erat vitae blandit. Mauris et nunc ullamcorper, posuere ante ut, semper felis. Ut enim tellus, lacinia at faucibus id, sollicitudin sed tortor. Nulla ut pharetra quam, sit amet suscipit eros. Maecenas facilisis dolor maximus orci condimentum, eu ultricies orci tristique. Vestibulum eu magna eu massa aliquam facilisis in vitae ipsum. Pellentesque ultrices consectetur venenatis. Pellentesque sagittis neque ligula, non venenatis ante tempus id. Curabitur id accumsan nibh.</div><div>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus ut malesuada tellus. Vestibulum elementum metus pellentesque sapien pellentesque, sed porttitor metus tristique. In hac habitasse platea dictumst. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas non pellentesque tortor, at blandit felis. Proin sagittis, lorem eu iaculis elementum, leo justo posuere elit, ac maximus diam nulla ac lacus. Morbi vitae augue sed sapien varius rutrum. Fusce gravida placerat mauris, a pretium tortor ornare ut. Aenean gravida sit amet justo a maximus. Ut euismod efficitur augue sodales vulputate. Vivamus dignissim sapien at sem lobortis, nec faucibus nibh elementum. Maecenas lobortis mauris vitae pellentesque pretium. Ut libero leo, feugiat id nisi vitae, aliquam elementum eros.</div>')
                          .each(function () {
-                            d3.select(document.body)
-                              .classed('no-scroll', true)
+                            // d3.select(document.body)
+                            //   .classed('no-scroll', true)
+                            timeout = window.setInterval(function () {
+                              wrapper.selectAll('.wrapper-scalable')
+                                     .style(style())
+                            }, 50)
                          })
         }
       }
